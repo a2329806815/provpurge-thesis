@@ -1,0 +1,15 @@
+# Google Scholar 核查笔记 (2026-10-29, 单独标注来源)
+- 访问方式说明: 研究浏览器直连 scholar.google.com 三次均被 "We're sorry... your computer or network may be sending automated queries" 拦截 (verified live, tab t1-t3); 改经 web index 抓取 Scholar 页面成功两次, 失败一次 (403, 按指示未重试该请求)
+- BEMULA — Scholar 已收录 (index 抓取成功): https://scholar.google.com/scholar?q=%22Can+Agents+Forget+When+Asked%22+Bemula
+  - 显示: B Xie, C Wang, G Ge, S Wang, F Niu, H Zhang… - arXiv preprint arXiv …, 2026 - arxiv.org; 有 [PDF]/HTML 版; **Cited by 1**
+  - Cited by 1 点开: 唯一引用者 = Machine Unlearning Under Model Evolution: A Survey of Durability, Recovery, and Lineage, M Partohaghighi, SSRN (October 21, 2026) — https://scholar.google.com/scholar?cites=13474922009107902801&as_sdt=2005&sciodt=0,5&hl=en&oe=ASCII
+  - Related articles 页 (related:UTH4kCyKALsJ): 含 MemCut (C Zhang, X Cao, Z Zheng, H Xiong, arXiv:2610.21405, 2026, Cited by 1), InjecMEM (Cited by 10), Evaluating memory structure in LLM agents (Cited by 8), Can Agent Memory Systems Track Evolving State? (arXiv:2608.19652, Cited by 12), MemoryAgentBench ICLR 版 (Cited by 306) 等
+- PACMI — Scholar 抓取返回该文摘要全文+arxiv.org (index), 说明有条目, 但抓取文本未显示标题/作者行与 Cited by 计数: **被引数未获取, 不推测为 0**
+  - URL: https://scholar.google.com/scholar?q=%22PACMI%22+Provenance-Aware+Cascading+Memory+Invalidation
+- PolyGraph — Scholar 查询经 index 抓取返回 403 (access denied), 按系统指示未重复/未绕过: **Scholar 收录与被引情况未核实** (arXiv abs 页仅列出 Google Scholar 为其 References & Citations 工具链接, 不构成收录证据)
+- Scholar 之外顺藤摸到的同主题新工作 (经 arXiv 索引核实摘要, 非 Scholar 页面本身):
+  - MemCut (Zhang et al., arXiv:2610.21405, 2026-10-15): 456 hand-designed secrets + 全标注 evidence trails; native vs residual recovery; LLM-guided deletion 后 residual recovery 39-76%; candidate coverage 是瓶颈 — 与 ProvPurge 撞车风险最高的新工作
+  - Beyond Downstream QA / FEB-30 (Toma et al., arXiv:2610.22209, 2026-10-15): store 内在评测, 操作分类仅 20% 正确
+  - Control-Plane Placement Shapes Forgetting / LETHE + ForgetEval (arXiv:2606.15903, 2026-06): 确定性原语 vs inscribe-time LLM vs mutation-time hook; signed purge receipts; ForgetEval 385 对抗 cases
+  - TRACE (Xiong et al., arXiv:2609.33517, 2026-09-27): 返回时记忆准入, 在 Memora/STALE Type II 上评测
+  - 三篇正文内已提: STALE (2605.06527, CUPMem), Memora/FAMA (ACL Findings 2026, arXiv:2604.20006), MemConflict (2605.20926), Agentic Unlearning/SBU (2602.17692, 见 Control-Plane 参考文献转引, 未独立打开全文 — 标注为转引)

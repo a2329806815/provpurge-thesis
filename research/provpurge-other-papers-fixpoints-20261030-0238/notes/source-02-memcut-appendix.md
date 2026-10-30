@@ -1,0 +1,12 @@
+# MemCut 附录补读
+- URL: https://arxiv.org/html/2610.21405v1
+- 读于: 2026-10-30, index 全文, 重点 §6.1, 附录 A/B.1–B.4/C/D — index full text
+- 关键事实:
+  - Res≈13(8.2−k): §6.1 与 B.3 "One quantity behind both sweeps" — 132 个 sweep 设置 (双策略×三系统×两 write model) 的 pooled 拟合, R²=0.95, 给定 k 后 system+model 移动 ≤约4 点, strategy <1 点; 拟合零点 8.2 ≈ 平均证据 8.1 turns。文中未给出分类型/分系统的独立拟合参数 (已核对 B.3 全节)
+  - 作者 caveat (§6.1 末): individual facts may need far fewer deletions when a complete cut is reached; minimal cut 均值 3.04, max 5 (Table 5)
+  - 分类型 (App C Table 12, 16 配置均值): S2 后 Res — relation chain 71.8%, aggregation 24.3%, fact assembly 60.2%, temporal 58.4%; hidden-risk chain 87.1%
+  - B.3 Table 10: S2 每事实删到的证据 turns — chain 2.4 vs aggregation 4.6, assembly 3.8, temporal 3.9 (三系统均值); 分系统 chain 恒最低 (MemoryBank 1.7 / Nemori 2.4 / LightMem 2.9)
+  - B.3 候选覆盖: pool 20 含证据 4.5 (TurnRAG/LightMem) / 3.0 (MemoryBank); pool 60 → 5.8/5.9/4.5 仍 <6–10; pool 60 时 TurnRAG 候选含 aggregation 证据 6.9 vs chain 4.4; S2 后可恢复 aggregation 3–31% vs chain 49–78%
+  - B.4 Table 11 (DeepSeek–Turn RAG, S2, 144 facts): budget 10→20 (pool20) Res 52.08→50.69 (−1.39) 而 off-target +9.95; pool 20→60 (budget10) Res −12.50 且 off-target 少 1.04
+  - B.3: S2 相对 S1 的判断增益随 pool 增大: pool20 时 5–15 点, pool60 时 20–32 点; pool60 时 S2 命中 92–93% sufficient sets (TurnRAG/LightMem) 但 Res 仍 31–40%
+  - 附录 D 案例 (relation chain): Arden Advisory 属 Nina Shah (CFO Ravi Shah 之妻); 4 links×2 证据 (hiring E1,E2; ownership E3,E4; relationship E5,E6; identity E2,E7 — E2 跨 link); minimal cuts {E1,E2},{E3,E4},{E5,E6},{E2,E7} 各 2 turns; 相似度排名 E1=3,E3=14,E2=22,E5=36,E6=45,E4=53,E7=141; pool20 只含 E1,E3; S2 到 pool50 才完成 cut (删 E5,E6); pool30 时 E2 在池中但未被选 (看似例行记录); E7 不进任何已跑 pool (≤60); 实体扩展: 每证据 turn 距请求实体 1 hop (Ravi→E2,E5,E6,E7; Arden→E1,E2,E3,E4; Nina→E3,E4,E5,E6), 作者称可把 complete cut 放进 10-turn pool 但 "effectiveness as a deletion strategy remains untested"

@@ -1,0 +1,13 @@
+# PACMI 全文笔记
+- 来源: https://arxiv.org/html/2610.05732 （verified live, 2026-10-29）；提交 2026-10-05 (abs v1)；作者 Yiqi Wang, Jiaqi Liu, Jiaqi Zhang, Zhangkai Wu, Yiqun Duan, Mingkai Zheng, Taotao Cai (Uni Southern Queensland / SUSTech / Jiangsu U / U Sydney / Uploading Inc)
+- 方法: provenance graph G=(V,E) typed edges (supports/used-by 评测内; 更新后可加 updates/contradicts); 四态格 active < needs-verification < historical-only < superseded (当前导向检索偏置 +0.12/+0.04/-0.10/-0.22; 历史查询 +0.04/+0.04/+0.12/+0.12); 另有实现中 stale/invalidated 两态未被基准实例化
+- 流程 Algorithm 1: 插入新证据→候选排序 s_cand=0.82cos+0.18Jaccard+0.08 slot bonus, k=6→LLM 批量分类 6 类关系 (deepseek-v4-flash, temp0) + 确定性 slot/stability/temporality 约束→仅 update/contradict 且 direct target 入 D→BFS 按边类型映射状态, 多路取更强→validity-aware retrieval top5→premise check (LLM, 无 superseded 时跳过)
+- 非破坏: 原文保留, 只记 operation 日志
+- 基准: 100 cases×5 域×20, 每 case 6 prior (M1 直接, M2 supports 下游, M3 used-by, M4 仍有效, M5 hard negative, M6 distractor) +1 新证据 + Q1/Q2/Q3; GT 是拓扑的确定性函数 (A3), 边由标注给定 (A1)
+- 模型: answer/judge deepseek-v4-pro, aux deepseek-v4-flash, embedding all-MiniLM-L6-v2, temp0, 单次运行; A-MEM-style 上下文 8 vs 其他 5 (混杂)
+- 结果 Table1: PACMI Final 0.99 vs A-MEM-style 0.90 (3 vs 29 errors, McNemar p=2.56e-6); Q2 0.97 vs 0.71; SIC 0.34 vs 0.47; CVER 0.83 < 0.88 (不占优); DR/AR 1.00, OI/UI 0; LLM-Only Q3 0.42 (重写毁历史)
+- 消融: w/o premise Final 0.83/Premise 0.80 (Q2 errors 3→50, p=1.78e-13, 但该消融同时去掉检测+纠正 prompt); w/o hist preserv Final 0.77/Hist 0.36; w/o cascade errors 3→11 p=0.0574 **不显著**; w/o validity SIC 0.34→0.56; premise detector 本征 P/R/F1=1.00 (条件于已分好的图状态+模板化查询, 作者明示不可外推)
+- 成本: PACMI aux calls 400 vs 基线 100 (每 query ≤1 次 premise check)
+- 统计: 10,000 case bootstrap seed 20260728; CI 在附录 F
+- 代码/数据: 论文仅称 "Code and data will be made publicly available" + 提及 released results/logs/analysis script, **全文未见仓库 URL, 本次未确认公开地址**
+- 局限 (§6+Scope): A1 边给定且基线没图 (比较是 given graph 下); 固定两跳拓扑, OI 不可测, 多路未测; 6 条记忆检索近饱和; judge 与生成同家族; 单次运行; 成本只数调用数不测 latency/token

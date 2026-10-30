@@ -1,0 +1,13 @@
+# AfterDeleteBench
+- URL: https://arxiv.org/html/2610.31366 (abs: https://arxiv.org/abs/2610.31366v1)
+- 读于: 2026-10-30, index 全文 HTML 1098 行逐段读完（含附录 A–J）— verified via index full text
+- 作者/日期: Saleh, Nahavandi, Salarian, Bassily, Perrault (Ohio State); submitted 22 Oct 2026
+- 关键事实:
+  - 配对世界 forget vs clean(never-exposed), ΔRec; primary Qwen2.5-7B ΔRec=0.680 IID [0.615,0.745] / 0.640 OOD, clean 0/200 (§5.1, Table 1)
+  - C1 组件分离: REGION-MNEMONIC-NUMBER, 三组件分存+公开组合规则, 完整串在 0/1248 状态中出现; ΔR 跨 6 model/split 格 0.615–0.990 (Table 2); C2 closure=0; C3 缺 number 时完整恢复 0 但 region/mnemonic 部分泄漏计数高 (Table 11, 如 Mistral IID 104/104)
+  - 解析器错位: legacy 合同要求嵌套 final_prediction.value, 官方 scorer 读顶层 value (§3, App I); Mistral/Phi-3 legacy 官方 R=0 但 raw 回复含目标 77/104, 78/104 IID (App G.1); 只改 Phi-3 activation 合同 E 77/104→0/104 而 raw 仍 78/104; Qwen legacy activation 使 write 效应反号 (+0.158 aligned → −0.224 legacy, raw 76/76 全分支) (§5.4, App G.2 Table 10)
+  - 第一探针: 3081/3088 恢复事件在 query 1, 7 在 query 2, 之后 0 (§5.5); 原始 compositional profiles 在 8 auditor 下全 0 (§5.1/D.2) 与 C1 高恢复对照
+  - R/C/A/E 分离; sealed gate 只挡 C, A 仍正, E=0≠遗忘 (App D.3)
+  - 未覆盖 (App J + §6): 语义/可释义秘密、偏好/概念、不完备/错误 provenance、多对多/概率推导、学习/压缩/选择性摘要、语义记忆、独立生产框架、模型自主决定存储/整合/检索/写回、无限制后续生成、exposed-and-retained 校准缺失、真实 utility/过度删除/误挡规模、runtime/storage 成本
+  - closure 零恢复是完全 provenance+确定性抽取式摘要 (按 id 排序逐字拼接) 下的理想化上界 (§3, App J)
+  - utility sanity check 饱和 100/100 全条件, 20 near-miss (App H)
